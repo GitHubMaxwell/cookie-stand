@@ -1,0 +1,12 @@
+h1 {
+    color:red;
+}
+table {
+    border-collapse: collapse;
+    width:70%;
+    min-width:600px;
+    margin:auto;
+  }
+table td, table th {
+    border: 1px solid black;
+}
