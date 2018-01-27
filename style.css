@@ -1,13 +1,5 @@
 
 /*
-    font-family: 'Quicksand', sans-serif;
-    font-family: 'Crimson Text', serif;
-    font-family: 'IM Fell DW Pica', serif;
-    font-family: 'Snippet', sans-serif;
-*/
-h1 {
-    color:red;
-}
 table {
     border-collapse: collapse;
     width:70%;
@@ -16,4 +8,22 @@ table {
   }
 table td, table th {
     border: 1px solid black;
+}
+*/
+* {
+    box-sizing: border-box;
+}
+.allContainer {
+    margin:0 auto;
+    background: rgb(226, 201, 178);
+    max-width: 72%;
+    padding:50px;
+}
+.storeContainer {
+    display:inline-block;
+    border: 2px solid rgb(205, 255, 247);
+    padding-right: 20px;
+}
+.storeContainer h3 {
+    text-align:center;
 }
