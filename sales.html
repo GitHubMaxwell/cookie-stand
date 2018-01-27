@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
 </head>
     <body>
+        <!--
         <div class = "allContainer">
             <div class = "storeContainer">
                 <h3 id = "location1"></h3>
@@ -32,12 +33,26 @@
                 <ul id = "alki"></ul>
             </div>
         </div>
-        <script src = "app.js"></script>
+        
     </body>
 </html>
+-->
+    <table>
+        <thead> <!-- you need to move the id up the thead so that you can dynamically create rows, otherwise you have to hardcode each <tr> with an id in-->
+            <tr id = "timeRow">
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id = "tableBody"> 
+    
+        </tbody>
+        <tfoot id = "tableFooter">
 
+        </tfoot>
+      </table>
 
-    <!-- <table>
+      <!--
+        <table>
             <tr>
                 <th>Location</th>
                 <th>Min / Cust</th>
@@ -74,57 +89,8 @@
                 <td class = "maxCust">16</td>
                 <td class = "avgCookieSale">4.6</td>
             </tr>
-          </table> 
-
-          <table class = "hourlyRate">
-                <tr>
-                    <th>6am</th>
-                    <th>7am</th>
-                    <th>8am</th>
-                    <th>9am</th>
-                    <th>10am</th>
-                    <th>11am</th>
-                    <th>12pm</th>
-                    <th>1pm</th>
-                    <th>2pm</th>
-                    <th>3pm</th>
-                    <th>4pm</th>
-                    <th>5pm</th>
-                    <th>6pm</th>
-                    <th>7pm</th>
-                    <th>8pm</th>
-                    <th>Total</th>
-                </tr>
-                <tr>
-                    <td class = "location"></td>
-                    <td class = "minCust"></td>
-                    <td class = "maxCust"></td>
-                    <td class = "avgCookieSale"></td>
-                </tr>
-                <tr>
-                    <td class = "location">SeaTac Airport</td>
-                    <td class = "minCust">3</td>
-                    <td class = "maxCust">24</td>
-                    <td class = "avgCookieSale">1.2</td>
-                </tr>
-                <tr>
-                    <td class = "location">Seattle Center</td>
-                    <td class = "minCust">11</td>
-                    <td class = "maxCust">38</td>
-                    <td class = "avgCookieSale">3.7</td>
-                </tr>
-                <tr>
-                    <td class = "location">Capitol Hill</td>
-                    <td class = "minCust">20</td>
-                    <td class = "maxCust">38</td>
-                    <td class = "avgCookieSale">2.3</td>
-                </tr>
-                <tr>
-                    <td class = "location">Alki</td>
-                    <td class = "minCust">2</td>
-                    <td class = "maxCust">16</td>
-                    <td class = "avgCookieSale">4.6</td>
-                </tr>
-              </table>
-   
--->
+        </table> 
+    -->
+        <script src = "app.js"></script>
+    </body>
+</html>
