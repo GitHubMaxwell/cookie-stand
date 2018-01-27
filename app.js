@@ -23,8 +23,11 @@ var storeOne = {
   render: function () {
     this.hourlyTotal();
     var location = document.getElementById('location1');
+    //why do i have to create the element (thats empty and doesnt have any text or content in it) if its already defined in the html. maybe i dont and all i have to do is target it and fill in the text with
     var h2El = document.createElement('h2');
+    //then you add the content that is defined here in the object
     h2El.textContent = this.location;
+    //then you have to take 
     location.appendChild(h2El);
     for (var j = 0; j < opHours.length; j++){
       var list = document.getElementById('firstandpike');
@@ -54,6 +57,12 @@ var storeTwo = {
     }
   },
   render: function() {
+    //you have to locate the element that is the title of the list. it doesn have to be in the for loop because its just a title theres no need to iterate it
+    //you have to store the location of the element by its id in a variable,
+    var location = document.getElementById('location2');
+    //then you have to 
+    var h3El = document.textContent
+    //you then have to declare a variable to store the textContent that you wish to put in the title in a variable
     for(var j = 0; j < length.opHours; j++) {
       
     }
