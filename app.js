@@ -60,11 +60,13 @@ var storeTwo = {
     //you have to locate the element that is the title of the list. it doesn have to be in the for loop because its just a title theres no need to iterate it
     //you have to store the location of the element by its id in a variable,
     var location = document.getElementById('location2');
-    //then you have to 
-    var h3El = document.textContent
+    //then you have to
+    var h3El = document.textContent;
     //you then have to declare a variable to store the textContent that you wish to put in the title in a variable
+    h3El.textContent = storeTwo.location;
+    location.appendChild(h3El);
     for(var j = 0; j < length.opHours; j++) {
-      
+      //call other methods and build the list
     }
   },
 };
