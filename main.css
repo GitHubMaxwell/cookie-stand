@@ -8,6 +8,7 @@
 
 body {
     background-color: #E5B3A8;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 ol, ul {
 	list-style: none;
@@ -17,15 +18,15 @@ h1 {
     text-align: center;
 }
 h2 {
-    font-family:'Crimson Text';
+    color: rgb(255, 57, 57);
 }
 a {
-    font-family:'Snippet';
     text-decoration: none;
     color:white;
 }
 .threeUp {
-display:flex;
+    display:flex;
+    background-color: rgb(153, 255, 255);
 }
 .threeUp img {
     border-radius: 50%;
