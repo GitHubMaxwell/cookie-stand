@@ -13,6 +13,7 @@ table td, table th {
 * {
     box-sizing: border-box;
     font-family:'Arial';
+    color:rgb(42, 0, 54);
 }
 .allContainer {
     margin:0 auto;
@@ -24,7 +25,7 @@ table td, table th {
     display:inline-block;
     border: 2px solid rgb(205, 255, 247);
     padding-right: 20px;
-    background:;
+    background-color:rgb(163, 234, 255);
 }
 .storeContainer h3 {
     text-align:center;
