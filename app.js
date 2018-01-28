@@ -5,8 +5,8 @@
 var opHours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 var ulLocation = ['firstandpike','seaTac','seaCenter','capHill','alki'];
 var h2Location = ['location1','location2','location3','location4','location5'];
-//var arrayForObjects = [];
-//var
+var storeContainer = []; //eddie and shamarke help
+// var hourlyTotals = [];
 
 /////////////////////////// thead function /////////////////////////
 function times() {
@@ -15,7 +15,7 @@ function times() {
   trEl.setAttribute('id', 'timesRow');
   newRow.appendChild(trEl);
   for (var j = 0; j < opHours.length; j++){
-    if (j <= 0) {//if this is the first column make a blank cell
+    if (j <= 0) { //if this is the first column make a blank cell
       var location = document.getElementById('timesRow');
       var blankThEl = document.createElement('th');
       blankThEl.textContent = '';
@@ -46,6 +46,8 @@ function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, u
     for (var i = 0; i < opHours.length; i++) {
       this.randCust.push(Math.floor(Math.random() * (this.maxCustomer - this.minCustomer)) + this.minCustomer);
       this.cookiesSold.push(Math.round(this.avgSale * this.randCust[i]));
+      //push the
+      //hourlyTotals.push(this.cookiesSold[0]);
     }
   },
   this.render = function() {
@@ -67,6 +69,7 @@ function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, u
       list.appendChild(tdEl);
     }
   };
+  storeContainer.push(this); //eddie and shamarke help
 }
 
 /////////////////////////// tfoot function /////////////////////////
@@ -76,16 +79,22 @@ function totals() {
   var trEl = document.createElement('tr');
   trEl.setAttribute('id', 'totalsRow');
   row.appendChild(trEl);
+  //i cant figure out what they should iterate through
   for (var j = 0; j < opHours.length; j++){
-    if (j <= 0) { //if this is the first column make a blank cell
+    let columnTotal = 0; //eddie and shamarke help
+    if (j <= 0) {
       var location = document.getElementById('totalsRow');
-      var blankThEl = document.createElement('th');
-      blankThEl.textContent = '';
-      location.appendChild(blankThEl);
+      var totalThEl = document.createElement('th');
+      totalThEl.textContent = 'Hourly Totals';
+      location.appendChild(totalThEl);
+    }
+    for (var i = 0; i < storeContainer.length; i++) { //i think the initial value of i needs to be one so it doesnt overwrite the title of the row
+      let currentStore = storeContainer[i]; //eddie and shamarke help
+      columnTotal += currentStore.cookiesSold[j]; //eddie and shamarke help
     }
     var list = document.getElementById('totalsRow');
     var thEl = document.createElement('th');
-    thEl.textContent = (opHours[j]);
+    thEl.textContent = (columnTotal);
     list.appendChild(thEl);
   }
   return list;
