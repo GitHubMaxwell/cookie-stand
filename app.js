@@ -69,7 +69,7 @@ function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, u
       list.appendChild(tdEl);
     }
   };
-  storeContainer.push(this); //eddie and shamarke help
+  storeContainer.push(this); //eddie and shamarke help, what does does push.(this) do
 }
 
 /////////////////////////// tfoot function /////////////////////////
