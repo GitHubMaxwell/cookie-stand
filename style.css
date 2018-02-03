@@ -23,7 +23,6 @@ form fieldset{
 table {
     width:80%;
     margin:0 auto;
-    height:400px;
     text-align: center;
 }
 table, thead, tbody, tfooter{
@@ -32,10 +31,13 @@ table, thead, tbody, tfooter{
 }
 thead tr th {
     border: 1px solid black;
+    padding:10px;
 }
 tbody tr td, th {
     border: 1px solid black;
+    padding:10px;
 }
 tfoot tr th {
     border: 1px solid black;
+    padding:10px;
 }
