@@ -6,7 +6,9 @@ var opHours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm',
 var ulLocation = ['firstandpike','seaTac','seaCenter','capHill','alki'];
 var h2Location = ['location1','location2','location3','location4','location5'];
 var storeContainer = []; //eddie and shamarke help, this is for the stretch goal hourly totals row
-
+//var userStoreName = document.getElementById('location');//i dont think its getelementbyID
+var userForm = document.getElementById('userForm');
+var allTotals = [];
 
 /////////////////////////// thead function /////////////////////////
 function times() {
@@ -15,7 +17,7 @@ function times() {
   trEl.setAttribute('id', 'timesRow');
   newRow.appendChild(trEl);
   for (var j = 0; j < opHours.length; j++){
-    if (j <= 0) { //if this is the first column make a blank cell
+    if (j === 0) { //if this is the first column make a blank cell
       var location = document.getElementById('timesRow');
       var blankThEl = document.createElement('th');
       blankThEl.textContent = '';
@@ -29,8 +31,13 @@ function times() {
   return list;
 }
 /////////////////////////// event handler function for user input NEW stores /////////////////////////
-function newStore() {
+function userNewStore() {
   event.preventDefault();
+
+  if (!event.target.location.value || !event.target.minCust.value || !event.target.maxCust.value || !event.target.avgCust.value) {
+    return alert('Fields cannot be empty!');
+  }
+
 }
 
 /////////////////////////// tbody constructor function for stores /////////////////////////
@@ -47,19 +54,14 @@ function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, u
   this.rowTotal = 0; //each time the Store is called it sets this back to zero for each row to use
 
   this.hourlyTotal = function() {
-    for (var i = 0; i < opHours.length; i++) {
+    for (var i = 0; i < opHours.length - 1; i++) {
       this.randCust.push(Math.floor(Math.random() * (this.maxCustomer - this.minCustomer)) + this.minCustomer);
       var temp = Math.round(this.avgSale * this.randCust[i]);
       this.rowTotal += temp;
       this.cookiesSold.push(temp);
-      console.log(this.rowTotal);
-      //for (var j = 0; j < storeContainer.length; j++) {
-      //let currentStore = storeContainer[i];
-      //rowTotal += currentStore.cookiesSold[j];//says cookiesSold is undefined, mayeb the order in which is is called in the render functio is causing the error im moving it to the end of the function
-      //console.log(totalCounter);
-      //}
+      //console.log(this.rowTotal);
     }
-    console.log('after the for loop: ' + this.rowTotal);
+    //console.log('after the for loop: ' + this.rowTotal);
   },
 
   this.render = function() { //the totals column totalCounter can be added to from the render function but at the end this needs to call another functin to add that column to the end of the rows
@@ -70,29 +72,29 @@ function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, u
     this.hourlyTotal();
     for (var j = 0; j < opHours.length -1 ; j++){
       //removed the storeTotal if statement and placed it in its own function below
-      if (j <= 0) { //this is adding the counted up store total to the end of the array
+      if (j === 0) { //this is adding the counted up store total to the end of the array
         var location = document.getElementById(this.location + 'Row');
         var thEl = document.createElement('th');
         thEl.textContent = this.location;
         location.appendChild(thEl);
-        console.log('the first column');
+        //console.log('the first column');
       }
-      if (j === opHours.length) {
+      if (j === opHours.length - 1) {
         tdEl = document.createElement('td'); //its writing it at the end of all the row being constructed and not at the end of each row
         tdEl.textContent = (this.rowTotal);
         trEl.appendChild(tdEl);
-        console.log('the last column: ' + this.rowTotal);
+        //console.log('the last column: ' + this.rowTotal);
       }
       var list = document.getElementById(this.location + 'Row');
       var tdEl = document.createElement('td');
       tdEl.textContent = (this.cookiesSold[j]);
       list.appendChild(tdEl);
-      console.log('table cell: ' + j);
+      //console.log('table cell: ' + j);
     }
-    tdEl = document.createElement('td'); //its writing it at the end of all the row being constructed and not at the end of each row
+    tdEl = document.createElement('td'); //its writing the total of each store at the end of the row
     tdEl.textContent = (this.rowTotal);
     trEl.appendChild(tdEl);
-    console.log('the last column: ' + this.rowTotal);
+    //console.log('the last column: ' + this.rowTotal);
   };
   storeContainer.push(this); //eddie and shamarke help, it pushes the entire built object into the array storeContainer
 }
@@ -103,7 +105,9 @@ function totals() {
   var trEl = document.createElement('tr');
   trEl.setAttribute('id', 'totalsRow');
   row.appendChild(trEl);
-  for (var j = 0; j < opHours.length; j++){
+  var tableTotal = 0;
+  // let allTotal = columnTotal;
+  for (var j = 0; j < opHours.length - 1; j++){
     let columnTotal = 0; //eddie and shamarke help, this is is the variable that we are adding to in order to display at the end
     if (j <= 0) { //this make the first cell of the totals named Hourly Totals
       var location = document.getElementById('totalsRow');
@@ -115,11 +119,19 @@ function totals() {
       let currentStore = storeContainer[i]; //eddie and shamarke help, assigning the variable currentStore = the value of storeContainer at position i, this is locking in
       columnTotal += currentStore.cookiesSold[j]; //eddie and shamarke help, this is adding to the total variable
     }
+    allTotals.push(columnTotal);//make another global variable
     var list = document.getElementById('totalsRow');
     var thEl = document.createElement('th');
     thEl.textContent = (columnTotal);
     list.appendChild(thEl);
+    //console.log('this is the allTotal: ' + allTotal);
   }
+  for (var k = 0; k < allTotals.length; k++) {
+    tableTotal += allTotals[k];
+  }
+  thEl = document.createElement('th');
+  thEl.textContent = (tableTotal);
+  list.appendChild(thEl);
   return list; //what is this returning
 }
 
@@ -143,6 +155,8 @@ alki.render();
 
 times(); //the th of the table
 totals(); //the hourlytotals bottom row function
+userForm.addEventListener('submit', userNewStore); //event listener for submit button
+
 
 /////////////////////////// backup constructor code ////////////////////////////////
 /*
