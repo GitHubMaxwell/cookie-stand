@@ -3,14 +3,11 @@
 /////// global arrays of times, ul IDs, and h2 IDs////////
 
 var opHours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', 'Store Total'];
-var ulLocation = ['firstandpike','seaTac','seaCenter','capHill','alki'];
-var h2Location = ['location1','location2','location3','location4','location5'];
 var storeContainer = []; //eddie and shamarke help, this is for the stretch goal hourly totals row
-//var userStoreName = document.getElementById('location');//i dont think its getelementbyID
 var userForm = document.getElementById('userForm');
 var allTotals = [];
 
-/////////////////////////// thead function /////////////////////////
+/////////////////////////// thead function (this builds the top row of times) /////////////////////////
 function times() {
   var newRow = document.getElementById('tableHead');
   var trEl = document.createElement('tr');
@@ -31,24 +28,43 @@ function times() {
   return list;
 }
 /////////////////////////// event handler function for user input NEW stores /////////////////////////
+//a lot of help from Josh
+
 function userNewStore() {
   event.preventDefault();
 
   if (!event.target.location.value || !event.target.minCust.value || !event.target.maxCust.value || !event.target.avgCust.value) {
     return alert('Fields cannot be empty!');
   }
+  var userLocation = event.target.location.value;
+  var userMinCust = parseInt(event.target.minCust.value);
+  var userMaxCust = parseInt(event.target.maxCust.value);
+  var userAvgCust = parseFloat(event.target.avgCust.value);
 
+  var userStore = new Store(userLocation, userMinCust, userMaxCust, userAvgCust, [], []);
+  userStore.render();
+  allTotals = []; // so the bottom right cell doesnt accumulate ontop of the revious one. works
+  // storeContainer.push(userStore);
+  // storeContainer[storeContainer.length-1].render();//delete the previous
+  // totals();//re-run the footer hourly totals row. works
+
+  //i have to clear the footer make the arry equal [] before i call the totals() again
+
+
+  //erase everything at the end of the function
+  event.target.location.value = null;
+  event.target.minCust.value = null;
+  event.target.maxCust.value = null;
+  event.target.avgCust.value = null;
 }
 
 /////////////////////////// tbody constructor function for stores /////////////////////////
-function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, ulLoc, h2Loc) {
+function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold) {
 
   this.location = location;
   this.minCustomer = minCust;
   this.maxCustomer = maxCust;
   this.avgSale = averageSale;
-  this.ulLoc = ulLoc;
-  this.h2Loc = h2Loc;
   this.randCust = randCust;
   this.cookiesSold = cookiesSold;
   this.rowTotal = 0; //each time the Store is called it sets this back to zero for each row to use
@@ -59,9 +75,7 @@ function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, u
       var temp = Math.round(this.avgSale * this.randCust[i]);
       this.rowTotal += temp;
       this.cookiesSold.push(temp);
-      //console.log(this.rowTotal);
     }
-    //console.log('after the for loop: ' + this.rowTotal);
   },
 
   this.render = function() { //the totals column totalCounter can be added to from the render function but at the end this needs to call another functin to add that column to the end of the rows
@@ -71,34 +85,35 @@ function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, u
     row.appendChild(trEl);
     this.hourlyTotal();
     for (var j = 0; j < opHours.length -1 ; j++){
-      //removed the storeTotal if statement and placed it in its own function below
-      if (j === 0) { //this is adding the counted up store total to the end of the array
+      //this is adding the counted up store total to the end of the array. when i remove this it deosnt display the last column but everything still works. im wondering if i can combine this with the code at the bottom of this function that i feel does the same thing
+      if (j === 0) {
         var location = document.getElementById(this.location + 'Row');
         var thEl = document.createElement('th');
         thEl.textContent = this.location;
         location.appendChild(thEl);
-        //console.log('the first column');
       }
-      if (j === opHours.length - 1) {
-        tdEl = document.createElement('td'); //its writing it at the end of all the row being constructed and not at the end of each row
-        tdEl.textContent = (this.rowTotal);
-        trEl.appendChild(tdEl);
-        //console.log('the last column: ' + this.rowTotal);
-      }
+      //this writes it at the end of all the rows being constructed and not at the end of each row
+      //this doesnt seem to make a difference when i cross it out and i dont want to remove in order to figure out why
+      // if (j === opHours.length - 1) {
+      //   tdEl = document.createElement('td');
+      //   tdEl.textContent = (this.rowTotal);
+      //   trEl.appendChild(tdEl);
+      // }
       var list = document.getElementById(this.location + 'Row');
       var tdEl = document.createElement('td');
       tdEl.textContent = (this.cookiesSold[j]);
       list.appendChild(tdEl);
-      //console.log('table cell: ' + j);
     }
-    tdEl = document.createElement('td'); //its writing the total of each store at the end of the row
+    //this writes the total of each store at the end of the row
+    tdEl = document.createElement('td');
     tdEl.textContent = (this.rowTotal);
     trEl.appendChild(tdEl);
-    //console.log('the last column: ' + this.rowTotal);
   };
   storeContainer.push(this); //eddie and shamarke help, it pushes the entire built object into the array storeContainer
+  console.log(storeContainer);
 }
-/////////////////////////// tfoot function /////////////////////////
+
+////////////////////////////////// tfoot function (all stores hourly totals combined) //////////////////////////////////
 
 function totals() {
   var row = document.getElementById('tableFooter');
@@ -106,20 +121,19 @@ function totals() {
   trEl.setAttribute('id', 'totalsRow');
   row.appendChild(trEl);
   var tableTotal = 0;
-  // let allTotal = columnTotal;
   for (var j = 0; j < opHours.length - 1; j++){
-    let columnTotal = 0; //eddie and shamarke help, this is is the variable that we are adding to in order to display at the end
-    if (j <= 0) { //this make the first cell of the totals named Hourly Totals
+    let columnTotal = 0; //eddie and sharmarke help, this is is the variable that we are adding to in order to display at the end
+    if (j <= 0) { //this makes the first cell of the totals row named "Hourly Totals"
       var location = document.getElementById('totalsRow');
       var totalThEl = document.createElement('th');
       totalThEl.textContent = 'Hourly Totals';
       location.appendChild(totalThEl);
     }
     for (var i = 0; i < storeContainer.length; i++) {
-      let currentStore = storeContainer[i]; //eddie and shamarke help, assigning the variable currentStore = the value of storeContainer at position i, this is locking in
-      columnTotal += currentStore.cookiesSold[j]; //eddie and shamarke help, this is adding to the total variable
+      let currentStore = storeContainer[i]; //eddie and sharmarke help, assigning the variable currentStore = the value of storeContainer at position i, this is locking in
+      columnTotal += currentStore.cookiesSold[j]; //eddie and sharmarke help, this is adding to the total variable
     }
-    allTotals.push(columnTotal);//make another global variable
+    allTotals.push(columnTotal);
     var list = document.getElementById('totalsRow');
     var thEl = document.createElement('th');
     thEl.textContent = (columnTotal);
@@ -132,19 +146,19 @@ function totals() {
   thEl = document.createElement('th');
   thEl.textContent = (tableTotal);
   list.appendChild(thEl);
-  return list; //what is this returning
+  return list; //eddie sharmarke help. what is this returning to/whats using it outside the function?
 }
 
 /////////////////////////// creating five instances for constructor function /////////////////////////
+
 /////how to turn this into a function that is called and stores these objects in an array. combine the below//////////
-var firstAndPike = new Store('1st and Pike',23,65,6.3,[],[], ulLocation[0],h2Location[0]);
-var seatacAirport = new Store('SeaTac Airport',3,24,1.2,[],[], ulLocation[1],h2Location[1]);
-var seattleCenter = new Store('Seattle Center',11,38,3.7,[],[], ulLocation[2],h2Location[2]);
-var capitolHill = new Store('Capitol Hill',20,38,2.3,[],[], ulLocation[3],h2Location[3]);
-var alki = new Store('Alki',2,16,4.6,[],[], ulLocation[4], h2Location[4]);
+var firstAndPike = new Store('1st and Pike',23,65,6.3,[],[]);
+var seatacAirport = new Store('SeaTac Airport',3,24,1.2,[],[]);
+var seattleCenter = new Store('Seattle Center',11,38,3.7,[],[]);
+var capitolHill = new Store('Capitol Hill',20,38,2.3,[],[]);
+var alki = new Store('Alki',2,16,4.6,[],[]);
 
 /////////////////////////// calling the instances/functions to display on the page /////////////////////////
-
 
 firstAndPike.render();
 seatacAirport.render();
@@ -152,44 +166,6 @@ seattleCenter.render();
 capitolHill.render();
 alki.render();
 
-
 times(); //the th of the table
 totals(); //the hourlytotals bottom row function
 userForm.addEventListener('submit', userNewStore); //event listener for submit button
-
-
-/////////////////////////// backup constructor code ////////////////////////////////
-/*
-function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold, ulLoc, h2Loc) {
-
-  this.location = location;
-  this.minCustomer = minCust;
-  this.maxCustomer = maxCust;
-  this.avgSale = averageSale;
-  this.ulLoc = ulLoc;
-  this.h2Loc = h2Loc;
-  this.randCust = randCust;
-  this.cookiesSold = cookiesSold;
-
-  this.hourlyTotal = function() {
-    for (var i = 0; i < opHours.length; i++) {
-      this.randCust.push(Math.floor(Math.random() * (this.maxCustomer - this.minCustomer)) + this.minCustomer);
-      this.cookiesSold.push(Math.round(this.avgSale * this.randCust[i]));
-    }
-  },
-
-  this.render = function() {
-    this.hourlyTotal();
-    var location = document.getElementById(h2Loc);
-    var h3El = document.createElement('h3');
-    h3El.textContent = this.location;
-    location.appendChild(h3El);
-    for (var j = 0; j < opHours.length; j++){
-      var list = document.getElementById(ulLoc);
-      var liEl = document.createElement('li');
-      liEl.textContent = (opHours[j] + ': ' + this.cookiesSold[j]);
-      list.appendChild(liEl);
-    }
-  };
-}
-*/
