@@ -1,21 +1,15 @@
-
-/*
-    font-family: 'Quicksand', sans-serif;
-    font-family: 'Crimson Text', serif;
-    font-family: 'IM Fell DW Pica', serif;
-    font-family: 'Snippet', sans-serif;
-*/
-
 body {
     background-color: #E5B3A8;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
-ol, ul {
-	list-style: none;
+.bodyContainer {
+    text-align: center;
+}
+p, img {
+    margin: 0 auto;
 }
 h1 {
     font-family:'IM Fell DW Pica', serif;
-    text-align: center;
 }
 h2 {
     color: rgb(255, 57, 57);
@@ -24,14 +18,25 @@ a {
     text-decoration: none;
     color:white;
 }
-.threeUp {
-    display:flex;
-    background-color: rgb(153, 255, 255);
+ol, ul {
+    list-style: none;
 }
-.threeUp img {
-    border-radius: 50%;
-    height:20%;
-    width:20%;
+ol, ul li{
+    display:inline-block;
+}
+nav, footer{
+    background-color: rgb(53, 51, 65);
+    border-radius: 10px;
+}
+.navBtn li a{
+    display:inline-block;
+    color: white;
+    padding:20px;
+    text-transform: uppercase;
+}
+.navBtn li a:hover {
+    color: #41fff6;
+    transition: 0.16s;
 }
 .cta {
     border: 3px solid white;
@@ -41,14 +46,39 @@ a {
     transition: background-color 0.16s ease-in-out;
     width:7%;
     text-align: center;
-    min-width:50px;
+    min-width:80px;
+    margin: 40px auto 40px auto;
 }
 .cta:hover {
     background-color: #402219;
 }
-.navBtn li{
-    display:inline-block;
+.aboutText {
+    width:500px;
+    margin: 0 auto;
 }
-.socialBtn {
-    margin-left: auto;
+.social ul li img{
+    width:40px;
+    height:40px;
+    display: inline-block;
+}
+#salmonLogo {
+    width:60%;
+}
+.locationTimes {
+    overflow: auto;
+}
+.locContainer {
+    overflow: auto;
+    width: 650px;
+    margin: 0 auto;
+}
+.location {
+    float: left;
+}
+.hours li{
+    display: block;
+    text-align:left;
+}
+.merchandise {
+    clear:both;
 }

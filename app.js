@@ -40,14 +40,13 @@ function userNewStore() {
   var userMinCust = parseInt(event.target.minCust.value);
   var userMaxCust = parseInt(event.target.maxCust.value);
   var userAvgCust = parseFloat(event.target.avgCust.value);
-
   var userStore = new Store(userLocation, userMinCust, userMaxCust, userAvgCust, [], []);
-  userStore.render();
   allTotals = []; // so the bottom right cell doesnt accumulate ontop of the revious one. works
   // storeContainer.push(userStore);
   // storeContainer[storeContainer.length-1].render();//delete the previous
-  // totals();//re-run the footer hourly totals row. works
-
+  userStore.render();
+  //Store.reset();//call the function that deletes the row / doesnt work
+  totals();//re-run the footer hourly totals row. works
   //i have to clear the footer make the arry equal [] before i call the totals() again
 
 
@@ -77,6 +76,12 @@ function Store(location, minCust, maxCust, averageSale, randCust, cookiesSold) {
       this.cookiesSold.push(temp);
     }
   },
+
+  this.reset = function() {
+    var row = document.getElementById('tableFooter');
+    var trEl = document.createElement('');
+    row.appendChild(trEl);
+  };
 
   this.render = function() { //the totals column totalCounter can be added to from the render function but at the end this needs to call another functin to add that column to the end of the rows
     var row = document.getElementById('tableBody');
@@ -121,6 +126,7 @@ function totals() {
   trEl.setAttribute('id', 'totalsRow');
   row.appendChild(trEl);
   var tableTotal = 0;
+  console.log('the footer row is rendering');
   for (var j = 0; j < opHours.length - 1; j++){
     let columnTotal = 0; //eddie and sharmarke help, this is is the variable that we are adding to in order to display at the end
     if (j <= 0) { //this makes the first cell of the totals row named "Hourly Totals"
@@ -133,6 +139,7 @@ function totals() {
       let currentStore = storeContainer[i]; //eddie and sharmarke help, assigning the variable currentStore = the value of storeContainer at position i, this is locking in
       columnTotal += currentStore.cookiesSold[j]; //eddie and sharmarke help, this is adding to the total variable
     }
+    //this is getting the all totals cell
     allTotals.push(columnTotal);
     var list = document.getElementById('totalsRow');
     var thEl = document.createElement('th');
@@ -147,6 +154,7 @@ function totals() {
   thEl.textContent = (tableTotal);
   list.appendChild(thEl);
   return list; //eddie sharmarke help. what is this returning to/whats using it outside the function?
+  //console.log('the footer row is rendering'); says this is unreachable code which might indicate the the code block above isnt working either
 }
 
 /////////////////////////// creating five instances for constructor function /////////////////////////
@@ -166,6 +174,7 @@ seattleCenter.render();
 capitolHill.render();
 alki.render();
 
+totals();
 times(); //the th of the table
-totals(); //the hourlytotals bottom row function
+//totals(); //the hourlytotals bottom row function
 userForm.addEventListener('submit', userNewStore); //event listener for submit button

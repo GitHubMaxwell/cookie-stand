@@ -14,6 +14,24 @@ table td, table th {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
+body {
+    background-color: #E5B3A8;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+a {
+    text-decoration: none;
+    color:white;
+}
+ol, ul {
+    list-style: none;
+}
+ol, ul li{
+    display:inline-block;
+}
+nav, footer{
+    background-color: rgb(53, 51, 65);
+    border-radius: 10px;
+}
 form fieldset{
     width: 80%;
     margin: 0 auto;
@@ -32,12 +50,46 @@ table, thead, tbody, tfooter{
 thead tr th {
     border: 1px solid black;
     padding:10px;
+    background-color: aliceblue;
 }
 tbody tr td, th {
     border: 1px solid black;
     padding:10px;
+    background-color: rgb(80, 170, 248);
 }
 tfoot tr th {
     border: 1px solid black;
     padding:10px;
+    background-color: aliceblue;
+    transition: 300ms;
+}
+th:hover, td:hover {
+    color:rgb(255, 255, 255);
+    background-color: #414141;
+}
+
+
+.navBtn li a{
+    display:inline-block;
+    color: white;
+    padding:20px;
+    text-transform: uppercase;
+}
+.navBtn li a:hover {
+    color: #ff3c00;
+    transition: 0.16s;
+}
+.cta {
+    border: 3px solid white;
+    color: white;
+    border-radius: 10px;
+    padding:10px;
+    transition: background-color 0.16s ease-in-out;
+    width:7%;
+    text-align: center;
+    min-width:50px;
+    margin: 0 auto;
+}
+.cta:hover {
+    background-color: #402219;
 }
